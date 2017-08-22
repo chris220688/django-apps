@@ -1,0 +1,2 @@
+# django-apps
+Django Website
