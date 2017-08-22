@@ -1,0 +1,122 @@
+/* BLOG */
+
+/* Make the blog panel fixed size. 
+   If the text has more than 400 pixels height hide it */
+.fixed-panel-body {
+  height: 300px;
+  overflow-y: hidden;
+}
+
+@media (max-width: 991px) {
+    .fixed-panel-body {
+      min-height: auto;   
+      overflow-y: hidden;
+    }
+}
+
+/* Blog text fade out at the bottom */
+.fadeout {
+  position: relative;
+}
+
+.fadeout:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255, 1) 85%);
+  width: 100%;
+  height: 15em;
+}
+
+/* Set the blog text behid the "read more" button */
+.paragraph-behind, .button-front {
+  z-index: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Set the "read more" button infront of the paragraph */
+.button-front {
+  z-index: 2;
+  position: absolute;
+  top: 270px;
+  width: 100%;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.read-more {
+  color: black;
+}
+
+/* Make the href fill the whole div
+   You can press the href all over the div */
+a.fill-div {
+    display: block;
+    height: 50px;
+    width: 100%;
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* Set the opacity to 0 initially. This will hide the post divs
+   So that our jquery function will make them fade in while scrolling. */
+.fades {
+  opacity: 0;
+}
+
+/* Overwrite the color of the panel-primary (default is blue) */
+.blog-panel-primary {
+  border: none;
+  box-shadow: none;
+}
+
+.blog-panel-primary > .blog-panel-heading {
+  background-color: #fff;
+  border: none;
+}
+
+/* Background color for the post body panels */
+.blog-panel-body {
+  background-color: #fff;
+  /* #FCFAF6 */ 
+  font-family: 'Hoefler Text'; 
+  /*eczar*/
+  font-size: 15px;
+  margin: 0px 40px;
+}
+
+.blog-panel-footer {
+  border: none;
+  background-color: #fff;
+}
+
+.likes {
+  padding: 5px 0px 0 5px;
+}
+.likes ul {
+  list-style: none;
+  padding: 0px 2px 0px 2px;
+  vertical-align: middle;
+  overflow:hidden;
+  overflow-y:scroll;
+  height: 200px;
+}
+
+.likes ul li span {
+  padding-left: 10px
+}
+
+.likes ul li hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.btn-disabled span {
+  color: #cecbcb
+}

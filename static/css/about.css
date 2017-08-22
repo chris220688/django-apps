@@ -1,0 +1,14 @@
+.img-me {
+	display: inline-block;
+	width: 220px; 
+	height: 220px;
+	line-height: 1.42857143;
+	border: 2px solid white;
+}
+
+.par-style p {
+	text-align: justify;
+	font-family: 'Hoefler Text';
+	line-height: 30px;
+	font-size: 15px;
+}

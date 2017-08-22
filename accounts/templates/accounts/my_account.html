@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<title>Registration Page</title>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- Bootstrap CSS Fallback -->
+		<!-- <link href="css/bootstrap.css" rel="stylesheet"> -->
+
+		<link href="/static/css/register.css" rel="stylesheet">
+		<link href="/static/css/general.css" rel="stylesheet">
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		<script src="/static/js/custom.js"></script>
+
+		<!-- Bootstrap JS Fallback --> 
+		<!-- <script src="js/bootstrap.js"></script> -->
+	</head>
+	<body>
+
+	<div class="container-fluid" style="padding-top: 30px;">
+		<div class="row">
+			<div class="col-xs-4 col-sm-3 col-md-3">
+				<a href='/home'><img class="img-banner" src="/static/images/stick2.png"></a>
+			</div>
+			<div class="col-xs-8 col-sm-6 col-md-6 smooth">
+				<hr class="hidden-xs hr-nav">
+				<nav class="navbar navbar-default navbar-custom" >
+					<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-btn" aria-expanded="false">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse" id="navbar-btn">
+
+							<ul class="nav navbar-nav">
+								<li><a href="/home">Home <span class="sr-only">(current)</span></a></li>
+								<li><a href="/blog">Blog</a></li>
+								<li><a href="/vouchers">Vouchers</a></li>
+								<li><a href="/about">About us</a></li>
+							</ul>
+
+							<ul class="nav navbar-nav navbar-right">
+								<li>
+									<li>
+										<a href="#" class="dropdown dropdown-menu-center" id="dropdownMenu" data-toggle="dropdown" aria-hidden="true" style="outline:none; background:none;">
+											<span>Hi, </span>{{ user.username }}
+											<span class="caret"></span>
+										</a>
+										<ul class="dropdown-menu" aria-labelledby="dropdownMenu" style="max-width: 50px;">
+											<li><a href="#">My Account</a></li>
+											<li role="separator" class="divider"></li>
+											<li><a href="/account/logout/">Logout</a></li>
+										</ul>
+									</li>
+								</li>
+							</ul>
+
+						</div>
+					</div>
+				</nav>
+				<hr class="hidden-xs hr-nav">
+			</div>
+			<div class="hidden-xs col-sm-3 col-md-3"></div>
+		</div>
+	</div>
+
+	<div class="container-fluid" style="padding-top: 60px; min-height: 552px;">
+		<!-- Messages -->
+		<div class="row row-space">
+			<div class="hidden-xs col-sm-3 col-md-3"></div>
+				<div class="col-xs-12 col-sm-6 col-md-6 smooth" style="padding-left: 60px; padding-right: 60px;">
+					{% for message in messages %}
+					<div class="alert {{ message.tags }} alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						{{ message }}
+					</div>
+					{% endfor %}
+				</div>
+			<div class="hidden-xs col-sm-3 col-md-3"></div>
+		</div>
+		<!-- Account Settings -->
+		<div class="row row-space">
+			<div class="hidden-xs col-sm-3 col-md-3"></div>
+			<div class="col-xs-12 col-sm-6 col-md-6 smooth" style="padding-left: 60px; padding-right: 60px;">
+				<div class="container-fluid font-family">
+					<div class="row row-space input">
+						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+							<div class="panel panel-default" style="margin-bottom: 20px;">
+								<div class="panel-heading" role="tab" id="headingOne">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="text-decoration: none; color: black; font-size: 18px;">
+										<span class="glyphicon glyphicon-user" style="margin-right: 10px;"></span> Username, Name, Avatar
+										</a>
+									</h4>
+								</div>
+								<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+									<div class="panel-body">
+										<form enctype="multipart/form-data" method="post" role="form">
+											{% csrf_token %}
+											{% for field in user_form %}
+											<div class="form-group">
+												<div style="display: inline-block; width: 30%;">
+													<span>{{ field.label }}</span>
+												</div>
+												<div style="display: inline-block; width: 65%;">
+													{{ field }}
+												</div>
+											</div>
+											{% endfor %}
+											{% for field in user_profile_form %}
+											<div class="form-group">
+												<div style="display: inline-block; width: 30%;">
+													<span>{{ field.label }}</span>
+												</div>
+												<div style="display: inline-block; width: 65%;">
+													{{ field }}
+												</div>
+											</div>
+											{% endfor %}
+											<input type="hidden" name="which_form" value="UNAForm">
+											<button style="float: right; border:none; outline:none; background:none; cursor:pointer; color:#0000EE; padding:0; text-decoration: none; font-family:inherit; font-size:inherit;" type="submit" class="btn btn-default submit-btn">Save Changes</button>
+										</form>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel panel-default" style="margin-bottom: 20px;">
+								<div class="panel-heading" role="tab" id="headingTwo">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="text-decoration: none; color: black; font-size: 18px;">
+											<span class="glyphicon glyphicon-envelope" style="margin-right: 10px;"></span> Email Address
+										</a>
+									</h4>
+								</div>
+								<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+									<div class="panel-body">
+										<form method="post" role="form">
+											{% csrf_token %}
+											{% for field in user_email_form %}
+											<div class="form-group">
+												<div style="display: inline-block; width: 35%;">
+													<span>{{ field.label }}</span>
+												</div>
+												<div style="display: inline-block; width: 60%;">
+													{{ field }}
+												</div>
+											</div>
+											{% endfor %}
+											<input type="hidden" name="which_form" value="EmailForm">
+											<button style="float: right; border:none; outline:none; background:none; cursor:pointer; color:#0000EE; padding:0; text-decoration: none; font-family:inherit; font-size:inherit;" type="submit" class="btn btn-default submit-btn">Save Changes</button>
+										</form>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel panel-default" style="margin-bottom: 20px;">
+								<div class="panel-heading" role="tab" id="headingThree">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="text-decoration: none; color: black; font-size: 18px;">
+											<span class="glyphicon glyphicon-lock" style="margin-right: 10px;"></span> Change Password
+										</a>
+									</h4>
+								</div>
+								<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+									<div class="panel-body">
+										<form method="post" role="form">
+											{% csrf_token %}
+											{% for field in password_form %}
+											<div class="form-group">
+												<div style="display: inline-block; width: 35%;">
+													<span>{{ field.label }}</span>
+												</div>
+												<div style="display: inline-block; width: 60%;">
+													{{ field }}
+												</div>
+											</div>
+											{% endfor %}
+											<input type="hidden" name="which_form" value="PasswordForm">
+											<button style="float: right; border:none; outline:none; background:none; cursor:pointer; color:#0000EE; padding:0; text-decoration: none; font-family:inherit; font-size:inherit;" type="submit" class="btn btn-default submit-btn">Save Changes</button>
+										</form>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel panel-default" style="margin-bottom: 20px;">
+								<div class="panel-heading" role="tab" id="headingFour">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour" style="text-decoration: none; color: black; font-size: 18px;">
+											<span class="glyphicon glyphicon-send" style="margin-right: 10px;"></span> Subscriptions
+										</a>
+									</h4>
+								</div>
+								<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+									<div class="panel-body">
+										<form method="post" role="form">
+											{% csrf_token %}
+											{% for field in subscr_form %}
+											<div class="form-group">
+												<div style="display: inline-block; width: 90%;">
+													<span>Subscribe to our Newsletter</span>
+												</div>
+												<div style="display: inline-block; width: 5%;">
+													<label>
+														{{ field }}
+													</label>
+												</div>
+											</div>
+											{% endfor %}
+											<input type="hidden" name="which_form" value="SubscrForm">
+											<button style="float: right; border:none; outline:none; background:none; cursor:pointer; color:#0000EE; padding:0; text-decoration: none; font-family:inherit; font-size:inherit;" type="submit" class="btn btn-default submit-btn">Save Changes</button>
+										</form>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingFive">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive" style="text-decoration: none; color: black; font-size: 18px;">
+											<span class="glyphicon glyphicon-remove-sign" style="margin-right: 10px;"></span> Account Closure
+										</a>
+									</h4>
+								</div>
+								<div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+									<div class="panel-body">
+										<form method="post" role="form">
+											{% csrf_token %}
+											{% for field in account_closure_form %}
+											<div class="form-group">
+												<div style="display: inline-block; width: 90%;">
+													<span style="color: #ff0000">Unchecking this will deactivate your account!</span>
+												</div>
+												<div style="display: inline-block; width: 5%;">
+													<label>
+														{{ field }}
+													</label>
+												</div>
+											</div>
+											{% endfor %}
+											<input type="hidden" name="which_form" value="AccountClosureForm">
+											<button style="float: right; border:none; outline:none; background:none; cursor:pointer; color:#0000EE; padding:0; text-decoration: none; font-family:inherit; font-size:inherit;" type="submit" class="btn btn-default submit-btn">Save Changes</button>
+										</form>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="hidden-xs col-sm-3 col-md-3"></div>
+		</div>
+	</div>
+
+	<div class="container-fluid page-footer">
+		<footer>
+			<div class="row">
+				<div class="hidden-xs col-sm-3 col-md-3"></div>
+				<div class="col-xs-12 col-sm-6 col-md-6 smooth">
+					<hr class="hr-custom">
+				</div>
+				<div class="hidden-xs col-sm-3 col-md-3"></div>
+			</div>
+			<div class="row">
+				<div class="hidden-xs col-sm-3 col-md-3"></div>
+				<div class="col-xs-12 col-sm-6 col-md-6 smooth text-center">
+					<div class="col-xs-6">
+						<h6>Created by</h6>
+						<p>Chris Liontos</p>
+					</div>
+					<div class="col-xs-6">
+						<h6>Contact us</h6>
+						<ul class="list-unstyled">
+							<li><span>Email:</span></li>
+							<li><span>Tel:</span></li>
+							<li><span>Mobile:</span></li>
+						</ul>
+					</div>
+				</div>
+				<div class="hidden-xs col-sm-3 col-md-3"></div>
+			</div>
+		</footer>
+	</div>
+
+	</body>
+</html>

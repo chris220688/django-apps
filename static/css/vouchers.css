@@ -1,0 +1,149 @@
+/* VOUCHERS */
+
+/* Overwrite the color of the panel-primary (default is blue) */
+.category-btn {
+  background: none;
+  border: none;
+  outline:none;
+  color: black;
+  font-family: 'Apple Chancery';
+  font-size: 30px;
+}
+
+.voucher-panel-primary {
+  border-color: #A8A7A7;
+}
+
+.voucher-panel-primary > .voucher-panel-heading {
+  background-color: #E8E8E8;
+  border-color: #A8A7A7;
+}
+
+/* CSS for the headers of a voucher panel */
+.voucher-panel-header-cs {
+  letter-spacing: 1px;
+  color: #80540c;
+  font-family: 'Hoefler Text';
+}
+
+/* Background color for the voucher body panels */
+.voucher-panel-body-background {
+  background-color: #FCFAF6;
+}
+
+/* Voucher Description */
+.voucher-desc {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  font-size: 15px;
+  min-height: 100px;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+@media (max-width: 600px) {
+    .voucher-desc {
+      font-size: x-small;
+      max-height: 150px;
+    }
+}
+
+/* CSS for the headers of a post modal */
+.voucher-modal-header-cs {
+  padding-left: 30px;
+  letter-spacing: 1px;
+  color: #80540c; 
+  font-family: 'Hoefler Text';
+  text-decoration:none;
+}
+
+/* Background color for the post body modals */
+.voucher-modal-body-background {
+  background-color: #FCFAF6;
+}
+
+/* Background color for the post footer modals */
+.voucher-modal-footer-background {
+  background: #F0F3F4;
+}
+
+.products-title {
+  text-align: center;
+  font-family: 'Apple Chancery';
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.voucher-item {
+  padding-bottom: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.voucher-item h3 {
+  text-align: center
+}
+
+.voucher-item img {
+  height: 100px;
+  width: 100px;
+}
+
+.voucher-item button {
+  background: none; border: none; outline:none;
+}
+
+.map-container {
+  height: 200px;
+}
+
+/* Add a left ribbon to a product */
+.box {
+  width: 150px; height: 210px;
+  position: relative;
+  background: #fff;
+  border: none;
+}
+.ribbon {
+  position: absolute;
+  right: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; right: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}

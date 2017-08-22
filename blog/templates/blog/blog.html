@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<title>Blog Page</title>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- Bootstrap CSS Fallback -->
+		<!-- <link href="css/bootstrap.css" rel="stylesheet"> -->
+
+		<link href="/static/css/blog.css" rel="stylesheet">
+		<link href="/static/css/general.css" rel="stylesheet">
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="/static/js/custom.js"></script>
+
+		<!-- Bootstrap JS Fallback --> 
+		<!-- <script src="js/bootstrap.js"></script> -->
+	</head>
+	<body>
+	
+	<div class="container-fluid" style="padding-top: 30px; padding-bottom: 80px;">
+		<div class="row">
+			<div class="col-xs-4 col-sm-3 col-md-3">
+				<a href='/home'><img class="img-banner" src="/static/images/stick2.png"></a>
+			</div>
+			<div class="col-xs-8 col-sm-6 col-md-6 smooth">
+				<hr class="hidden-xs hr-nav">
+				<nav class="navbar navbar-default navbar-custom">
+					<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-btn" aria-expanded="false">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse" id="navbar-btn">
+
+							<ul class="nav navbar-nav">
+								<li><a href="/home">Home <span class="sr-only">(current)</span></a></li>
+								<li><a href="/blog">Blog</a></li>
+								<li class="bounce"><a href="/vouchers">Vouchers</a></li>
+								<li><a href="/about">About us</a></li>
+							</ul>
+
+							<ul class="nav navbar-nav navbar-right">
+								<li>
+									{% if user.is_authenticated %}
+										<li>
+											<a href="#" class="dropdown dropdown-menu-center" id="dropdownMenu" data-toggle="dropdown" aria-hidden="true" style="outline:none; background:none;">
+												<span>Hi, </span>{{ user.username }}
+												<span class="caret"></span>
+											</a>
+											<ul class="dropdown-menu" aria-labelledby="dropdownMenu" style="max-width: 50px;">
+												<li><a href="/account/my-account/">My Account</a></li>
+												<li role="separator" class="divider"></li>
+												<li><a href="/account/logout/">Logout</a></li>
+											</ul>
+										</li>
+									{% else %}
+										<a href="#" data-toggle="modal" data-target="#Login-btn" style="outline:none;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Login</a>
+									{% endif %}
+								</li>
+							</ul>
+
+						</div>
+					</div>
+				</nav>
+				<hr class="hidden-xs hr-nav">
+			</div>
+			<div class="hidden-xs col-sm-3 col-md-3"></div>
+		</div>
+	</div>
+
+
+	<!-- Login Modal -->
+	<div id="Login-btn" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header login-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Login</h4>
+				</div>
+				<div class="modal-body">
+					<form action="/account/login/" method="post" role="form">
+						{% csrf_token %}
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Username" name="username">
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" placeholder="Password" name="password">
+						</div>
+						<button style="display: inline-block; width: 60%" type="submit" class="btn btn-primary btn-block">Login</button>
+						<span style="display: inline-block; width: 40%; float: right; text-align: right; height: 35px; display: table-cell; vertical-align: middle;">Forgotten Account?</span>
+					</form>
+				</div>
+				<div class="modal-footer login-modal-footer-background">
+					<ul class="list-inline pull-left">
+						<span>Don't have an account already?</span>
+						<li>
+							<a href="/account/register">Sign in</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div> 
+
+	{% for post in posts %}
+	<div class="container-fluid fades" style="padding-bottom: 30px;">
+		<div class="row row-space">
+			<div class="hidden-xs col-sm-3 col-md-3"></div>
+			<div class="col-xs-12 col-sm-6 col-md-6 smooth" style="padding-left: 60px; padding-right: 60px;">
+				<div class="panel panel-primary blog-panel-primary" style="box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 3px rgba(0,0,0,.2);">
+					<div class="panel-heading blog-panel-heading">
+						<div>
+							<h4 class="panel-header-custom">
+								{{ post.title }}
+							</h4>
+						</div>
+						<div>
+							<img class="img-icon-bubble img-center" src="/media/{{ post.author.tuserprofile.avatar }}">
+						</div>
+					</div>
+					<div class="panel-body-no-pad fixed-panel-body blog-panel-body fadeout">
+						<div class="paragraph-behind capital_paragraph">
+							<p>
+							<!-- To evaluate html code use {{ post.text |safe }} -->
+							{{ post.text }}
+							</p>
+						</div>
+						<div class="button-front">
+							<h4><a class="fill-div" href="/blog/post-{{ post.id }}/">Read more</a></h4>
+						</div>
+					</div>
+					<div class="panel-footer blog-panel-footer panel-lsc">
+						<!-- Icons' section -->
+						<div class="container-fluid">
+							<!-- Likes - Comments section -->
+							<div class="row" style="padding-bottom: 10px;">
+								<div class="pull-left">
+									<span class="panel-lc" id="likes-nbr-{{ post.id }}">
+										<a style="text-decoration: none; outline:none;">Likes {{ post.tlike_set.all.count }}</a> 
+									</span>
+								</div>
+								<div class="pull-left text-left" style="padding-left: 20px;">
+									<span class="panel-lc">
+										<a href="/blog/post-{{ post.id }}/#comments-list" style="text-decoration: none;">
+										Comments {{ post.tcomment_set.all.count }}</a> 
+									
+									</span>
+								</div>
+							</div>
+
+							<hr class="hr-lsc">
+
+							<div class="row">
+								<div class="col-xs-4 text-center panel-lsc-border-right">
+									{% if user.is_authenticated %}
+										<button type="button" {% if post.id in liked_posts %} disabled class="btn-disabled" {% endif %} onclick="like_post({{ post.id }});" id="likes-btn-{{ post.id }}" style="background: none; border: none; outline:none;">
+											<span class="glyphicon glyphicon-heart glyphicon-heart-red" aria-hidden="true"></span>
+											<span class="hidden-xs"> Like</span>
+										</button>
+									{% else %}
+										<button type="button" data-toggle="modal" data-target="#Login-btn" style="background: none; border: none; outline:none;">
+											<span class="glyphicon glyphicon-heart glyphicon-heart-red" aria-hidden="true"></span>
+											<span class="hidden-xs"> Like</span>
+									{% endif %}
+								</div>
+								<script src="/static/js/blog.js"></script>
+								<div class="col-xs-4 text-center panel-lsc-border-right">
+									<div class="dropup">
+										<button type="button" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1" style="background: none; border: none; outline:none;">
+											<span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+											<span class="hidden-xs"> Share</span>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-center dropdown-menu-buttons" aria-labelledby="dropdownMenu1">
+											<li>
+												<ul class="list-unstyled col-xs-4 bounce share-item-1">
+													<li><a class="" href="#"><img class="img-icon-bubble share-item" src="/static/images/fb.png"></a></li>
+												</ul>
+												<ul class="list-unstyled col-xs-4 bounce share-item-2">
+													<li><a class="" href="#"><img class="img-icon-bubble share-item" src="/static/images/twitter.png"></a></li>
+												</ul>
+												<ul class="list-unstyled col-xs-4 bounce share-item-3">
+													<li><a class="" href="#"><img class="img-icon-bubble share-item" src="/static/images/linkedin.ico"></a></li>
+												</ul>										
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="col-xs-4 text-center">
+									<a href="/blog/post-{{ post.id }}/#comment-text">
+										<button type="button" style="background: none; border: none; outline:none;">
+											<span class="glyphicon glyphicon-comment glyphicon-comment-green" aria-hidden="true"></span>
+											<span class="hidden-xs" style="color: black;"> Comment</span>
+										</button>
+									</a>				
+								</div>
+							</div>
+
+							<hr class="hr-lsc">
+
+						</div>
+					</div>
+				</div>
+   
+			</div>
+			<div class="hidden-xs col-sm-3 col-md-3"></div>
+		</div>
+	</div>
+
+	{% endfor %}
+
+	<div class="container-fluid fades">
+		<div class="row">
+			<div class="hidden-xs col-sm-3 col-md-3"></div>
+			<div class="col-xs-12 col-sm-6 col-md-6 text-center smooth">
+				<nav aria-label="Page navigation">
+					<ul class="pagination">
+						<!-- Inbuild paginator functions: .has_next, .has_previous, page_range, .number -->
+						{% if posts.has_previous %}
+						<li>
+							<a style="color: black;" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						{% endif %}
+
+						{% for page in page_range %}
+							{% if page == posts.number %}
+							<li class="active"><a style="border-color: black; color: black; background-color: white" href="?page={{ page }}">{{ posts.number }}</a></li>
+							{% else %}
+							<li><a style="color: black;" href="?page={{ page }}">{{ page }}</a></li>
+							{% endif %}
+						{% endfor %}
+
+						{% if posts.has_next %}
+						<li>
+							<a style="color: black;" href="?page={{ posts.next_page_number }}" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+						{% endif %}
+					</ul>
+				</nav>
+			</div>
+			<div class="hidden-xs col-sm-3 col-md-6"></div>
+		</div>
+	</div>
+
+
+	<div class="container-fluid page-footer">
+		<footer>
+			<div class="row">
+				<div class="hidden-xs col-sm-3 col-md-3"></div>
+				<div class="col-xs-12 col-sm-6 col-md-6 smooth">
+					<hr class="hr-custom">
+				</div>
+				<div class="hidden-xs col-sm-3 col-md-3"></div>
+			</div>
+			<div class="row">
+				<div class="hidden-xs col-sm-3 col-md-3"></div>
+				<div class="col-xs-12 col-sm-6 col-md-6 smooth text-center">
+					<div class="col-xs-6">
+						<h6>Created by</h6>
+						<p>Chris Liontos</p>
+					</div>
+					<div class="col-xs-6">
+						<h6>Contact us</h6>
+						<ul class="list-unstyled">
+							<li><span>Email:</span></li>
+							<li><span>Tel:</span></li>
+							<li><span>Mobile:</span></li>
+						</ul>
+					</div>
+				</div>
+				<div class="hidden-xs col-sm-3 col-md-3"></div>
+			</div>
+		</footer>
+	</div>
+
+	</body>
+</html>
