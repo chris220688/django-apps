@@ -1,1 +1,2 @@
-static/* linguist-vendored
+accounts/*.html linguist-vendored
+blog/*.html linguist-vendored
