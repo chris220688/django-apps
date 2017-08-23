@@ -22,14 +22,14 @@ Todo list
 5. CSRF token cookie is not deleted after account/logout
 
 #### Account Features
-1. Forgot my password feature.
-2. Reset my password (To be implemented using the inbuilt Django library)
-3. Deleting or de-activating accounts?
+1. Forgot/Reset my password (To be implemented using the inbuilt Django library + email notification)
+2. Deleting or de-activating accounts?
 
 #### Other Features
 1. Enable email notifications when users subscribe to Newsletter
 2. Add default user images
 3. Search post functionality
+3. Allow basic html elements in text inputs from the admin screens (In a secure way!!!)
 
 #### User experience
 1. Create a proper response for invalid logins

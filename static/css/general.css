@@ -11,7 +11,6 @@
   }
 }
 
-/* Overwrite navbar-nav values */
 .navbar-default .navbar-nav li > a {
   font-family: 'Apple Chancery';
   color: black;
@@ -25,20 +24,57 @@
   margin-bottom: 0px;
 }
 
+/* CSS for the login modal */
+.login-modal {
+  font-family: 'Big Caslon', 'Book Antiqua', 'Palatino Linotype', Georgia, serif;
+}
+
+/* CSS to add an anchor inside the password input */
+.pwd-input {
+  position:relative;
+}
+
+.login-forgot {
+  position:absolute;
+  bottom:0px;
+  right:0px;
+  top: 0px;
+  width: 70px;
+  color: #ccc;
+  border:solid;
+  border-width: 1px;
+  font-size: 20px;
+  text-align: center;
+  background-color: #F0F3F4;
+  border-radius: 0px 4px 4px 0px;
+}
+
+.login-forgot a {
+  color: black; font-size: 13px; text-decoration:none
+}
+
+/* CSS for the login submit button */
+.login-btn {
+  background-color: #F0F3F4;
+  border-color: #ccc;
+  font-size: 15px;
+  outline: none !important;
+}
+
 /* CSS for the header of the login modal */
 .login-modal-header {
   padding-left: 30px;
   letter-spacing: 1px;
-  color: #80540c; 
+  color: black; 
   font-family: 'Hoefler Text';
   text-decoration:none;
   background-color: #E8E8E8;
   border-color: #A8A7A7;
 }
 
-/* Background color for the post footer modals */
-.login-modal-footer-background {
-  background: #F0F3F4;
+/* Login modal footer */
+.login-modal-footer {
+  text-align: center;
 }
 
 /* CSS for the headers of a post panel */
