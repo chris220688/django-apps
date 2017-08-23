@@ -1,3 +1,1 @@
-accounts/*.html linguist-vendored
-blog/*.html linguist-vendored
-home/*.html linguist-vendored
+*.html linguist-vendored
