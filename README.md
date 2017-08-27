@@ -2,6 +2,13 @@
 
 Django Website
 ------
+
+This is a project I have started working on a few months ago, on my quest to teach myself Python and Django.
+
+The aim is to create a blog that will focus on the homelessness crisis in the UK. The blog will also allow registered users to obtain vouchers for several products.
+
+There is also a chance for an additional feature to make donations in the local holmeless communities.
+
 Visit [this link](https://chris220688.github.io/blog.html) to see a demo of the website.
 
 #### Technologies
