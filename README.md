@@ -42,20 +42,23 @@ Todo list
 1. Create a proper response for invalid logins
 2. Exceptions and Http 404 where content doesn’t exist. (i.e if we hit the url /blog/post-2222/ but post 2222 doesn’t exist)
 3. Consider using slugs
+4. Customize default "Pasword Reset" forms
 
 #### Security
 1. Go full HTTPS
 2. Specific URLs should be restricted. (i.e logged in users should not be able to access the registration page)
 3. Throttling of login attempts
 4. Password strength checking
-5. Add some sort of security in manage.py script. Not everyone should be able to run it
 
 #### House keeping
 1. When a new image is uploaded in /media directory, remove the old one
 2. CDN fallback to local CSS and JS files
 3. Consider ansible playbooks for the deployment
 4. LOGS!
+5. Unit tests
+6. Template inheritance (Login modal, Navbar, footer should be organised in templates rather than coded in every html page)
 
 #### Pre-Live checks
 1. Fix STATICS and MEDIA directories for production
 2. Turn off DEBUG for production!
+3. Remove manage.py
