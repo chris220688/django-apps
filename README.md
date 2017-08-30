@@ -29,8 +29,7 @@ Todo list
 5. CSRF token cookie is not deleted after account/logout
 
 #### Account Features
-1. Forgot/Reset my password (To be implemented using the inbuilt Django library + email notification)
-2. Deleting or de-activating accounts?
+1. Deleting or de-activating accounts?
 
 #### Other Features
 1. Enable email notifications when users subscribe to Newsletter
@@ -56,7 +55,6 @@ Todo list
 3. Consider ansible playbooks for the deployment
 4. LOGS!
 5. Unit tests
-6. Template inheritance (Login modal, Navbar, footer should be organised in templates rather than coded in every html page)
 
 #### Pre-Live checks
 1. Fix STATICS and MEDIA directories for production
