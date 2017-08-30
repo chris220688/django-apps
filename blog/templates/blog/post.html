@@ -1,121 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<title>Post Page</title>
+{% extends "base.html" %}
 
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% block title %}
+	<title>Post</title>
+{% endblock %}
 
-		<!-- Bootstrap CSS Fallback -->
-		<!-- <link href="css/bootstrap.css" rel="stylesheet"> -->
+{% block sources %}
+	<link href="/static/css/post.css" rel="stylesheet">
+	<link href="/static/css/general.css" rel="stylesheet">
+	<script src="/static/js/custom.js"></script>
+{% endblock %}
 
-		<link href="/static/css/post.css" rel="stylesheet">
-		<link href="/static/css/general.css" rel="stylesheet">
-
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-		<script src="/static/js/custom.js"></script>
-
-		<!-- Bootstrap JS Fallback --> 
-		<!-- <script src="js/bootstrap.js"></script> -->
-	</head>
-	<body>
-
-	<div class="container-fluid" style="padding-top: 30px;">
-		<div class="row">
-			<div class="col-xs-4 col-sm-3 col-md-3">
-				<a href='/home'><img class="img-banner" src="/static/images/stick2.png"></a>
-			</div>
-			<div class="col-xs-8 col-sm-6 col-md-6 smooth">
-				<hr class="hidden-xs hr-nav">
-				<nav class="navbar navbar-default navbar-custom" >
-					<div class="container-fluid">
-					<!-- Brand and toggle get grouped for better mobile display -->
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-btn" aria-expanded="false">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
-
-						<!-- Collect the nav links, forms, and other content for toggling -->
-						<div class="collapse navbar-collapse" id="navbar-btn">
-
-							<ul class="nav navbar-nav">
-								<li><a href="/home">Home <span class="sr-only">(current)</span></a></li>
-								<li><a href="/blog">Blog</a></li>
-								<li><a href="/vouchers">Vouchers</a></li>
-								<li><a href="/about">About us</a></li>
-							</ul>
-
-							<ul class="nav navbar-nav navbar-right">
-								<li>
-									{% if user.is_authenticated %}
-										<li>
-											<a href="#" class="dropdown dropdown-menu-center" id="dropdownMenu" data-toggle="dropdown" aria-hidden="true" style="outline:none; background:none;">
-												<span>Hi, </span>{{ user.username }}
-												<span class="caret"></span>
-											</a>
-											<ul class="dropdown-menu" aria-labelledby="dropdownMenu" style="max-width: 50px;">
-												<li><a href="/account/my-account/">My Account</a></li>
-												<li role="separator" class="divider"></li>
-												<li><a href="/account/logout/">Logout</a></li>
-											</ul>
-										</li>
-									{% else %}
-										<a href="#" data-toggle="modal" data-target="#Login-btn" style="outline:none;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Login</a>
-									{% endif %}
-								</li>
-							</ul>
-
-						</div><!-- /.navbar-collapse -->
-					</div><!-- /.container-fluid -->
-				</nav>
-				<hr class="hidden-xs hr-nav">
-			</div>
-			<div class="hidden-xs col-sm-3 col-md-3"></div>
-		</div>
-	</div>
-
-	<!-- Login Modal -->
-	<div id="Login-btn" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div class="modal-content login-modal">
-				<div class="modal-body">
-					<form action="/account/login/" method="post" role="form">
-						{% csrf_token %}
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Username" name="username">
-						</div>
-						<div class="form-group pwd-input">
-							<input type="password" class="form-control" placeholder="Password" name="password">
-							<div class="login-forgot">
-								<a href="/account/password_reset/">Forgot ?</a>
-							</div>
-						</div>
-						<button type="submit" class="btn btn-block login-btn">Login</button>
-					</form>
-				</div>
-				<div class="login-modal-footer modal-footer">
-					<span>Not a member?</span>
-					<a href="/account/register">Join now</a>
-				</div>
-			</div>
-		</div>
-	</div>  
-
-	<div class="container-fluid" style="padding-top: 80px; padding-bottom: 50px;">
+{% block content %} 
+	<div class="container-fluid" style="padding-bottom: 50px;">
 		<div class="row">
 			<div class="hidden-xs col-sm-3 col-md-3"></div>
 			<div class="col-xs-12 col-sm-6 col-md-6 smooth" style="padding-left: 60px; padding-right: 60px;">
@@ -271,38 +167,4 @@
 			<div class="hidden-xs col-sm-3 col-md-3"></div>
 		</div>
 	</div>
-
-
-
-	<div class="container-fluid page-footer">
-		<footer>
-			<div class="row">
-				<div class="hidden-xs col-sm-3 col-md-3"></div>
-				<div class="col-xs-12 col-sm-6 col-md-6 smooth">
-					<hr class="hr-custom">
-				</div>
-				<div class="hidden-xs col-sm-3 col-md-3"></div>
-			</div>
-			<div class="row">
-				<div class="hidden-xs col-sm-3 col-md-3"></div>
-				<div class="col-xs-12 col-sm-6 col-md-6 smooth text-center">
-					<div class="col-xs-6">
-						<h6>Created by</h6>
-						<p>Chris Liontos</p>
-					</div>
-					<div class="col-xs-6">
-						<h6>Contact us</h6>
-						<ul class="list-unstyled">
-							<li><span>Email:</span></li>
-							<li><span>Tel:</span></li>
-							<li><span>Mobile:</span></li>
-						</ul>
-					</div>
-				</div>
-				<div class="hidden-xs col-sm-3 col-md-3"></div>
-			</div>
-		</footer>
-	</div>
-
-	</body>
-</html>
+{% endblock %}
