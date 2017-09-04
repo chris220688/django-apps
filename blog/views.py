@@ -8,6 +8,9 @@ from blog.models      import (
 from django.contrib.auth.models import User
 import json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils.html import escape
+from blog.forms import CommentForm
+import datetime
 
 # View that returns all the posts, ordered by date, in blog.html
 # URL: /blog
@@ -58,77 +61,73 @@ def blog(request):
 #            -post_id
 # Returns:   context dictionary with the post and all of its comments
 def post(request, post_id):
-	post = tPost.objects.all().filter(id=post_id).first()
-	all_comments = tComment.objects.all().filter(post=post_id).order_by('date')
-	
-	# Get all the users that liked this post
-	# We will need users objects so that we can read the username. i.e user.username
-	# Filtering the tLikes table will not do, as we can only retrieve the ids of the users
-	# The following would be like:
-	# Select * from user_auth where id in (select user from tLike where post = post_id)
-	# The __ helps querying across relationships
-	users_liked = User.objects.all().filter(tlike__post=post_id)
-
-	# If the user is authenticated, we need to find out whether he has already liked this post
-	post_liked = False
-
-	if request.user.is_authenticated():
-		if tLike.objects.all().filter(user_id=request.user, post=post.id):
-			post_liked = True
-
-	template = "blog/post.html"
-	context = {
-		'post': post,
-		'all_comments': all_comments,
-		'users_liked': users_liked,
-		'post_liked': post_liked,
-	}
-	return render(request, template, context)
-
-# Function that adds a new comment in the DB and returns a json response
-# This function is called using an ajax POST request
-# URL: /blog/post-12/add_comment
-#
-# Arguments: -request
-#            -post_id
-# Returns:   json object with the comment details
-def add_comment(request, *args, **kwargs):
+	# If the request is POST it means that it comes from an ajax request in post.js
 	if request.method == 'POST':
+		# Create a CommentForm instance.
+		# Beware!!! CommentForm needs to be an instance of tComment table, so that we
+		# can use the save() method to save it in the DB. Since tComment has a foreign
+		# key to user_auth table, we need to pass it a user_auth instance for the user
+		# that called the function. This will add the user_id for us in the table.
+		comment_form = CommentForm(request.POST, instance=tComment(user=request.user))
 
-		# Get the data passed to the ajax POST request
-		comment_text  = request.POST.get('the_comment')
-		post_id       = request.POST.get('post_id')
-		response_data = {}
+		if comment_form.is_valid():
 
-		# Create a new comment object and save it in the DB
-		# BEWARE! post is a Foreign key to tPost table abd should be an instance of it
-		#         Thus we need to pass a tPost object and NOT a string
-		comment = tComment(user=request.user, post=tPost.objects.get(id=post_id), text=comment_text)
-		comment.save()
+			comment_form.save()
 
-		# Create the repsonse data to return to the add_comment() in post.js
-		response_data['text'] = comment.text
-		# Add the url of the commenters avatar
-		response_data['commenter_image'] = str(request.user.tuserprofile.avatar)
-		# Find the new total number of comments for this post
-		response_data['comments_count'] = tComment.objects.all().filter(post=post_id).count()
-		# Cast date to a string and make the format look like the one django template is using
-		# Django template:   July 3, 2017, 7:17 p.m.
-		# strftime function: July 3, 2017, 7:17 PM.
-		# Needs to be fixed
-		response_data['date'] = str(comment.date.replace(microsecond=0).strftime('%B %-d, %Y, %-I:%M %p.'))
-		#response_data['user'] = comment.user.username
+			# Create the repsonse data to return to the add_comment() in post.js
+			response_data = {}
+			response_data['text'] = escape(comment_form.cleaned_data['text'])
+			# Add the url of the commenters avatar
+			response_data['commenter_image'] = str(request.user.tuserprofile.avatar)
+			# Find the new total number of comments for this post
+			response_data['comments_count'] = tComment.objects.all().filter(post=post_id).count()
+			# Cast date to a string and make the format look like the one django template is using
+			# Django template:   July 3, 2017, 7:17 p.m.
+			# strftime function: July 3, 2017, 7:17 PM.
+			# Needs to be fixed
+			response_data['date'] = str(datetime.datetime.now())
 
-		return HttpResponse(
-			json.dumps(response_data),
-			content_type="application/json"
-		)
+			return HttpResponse(
+				json.dumps(response_data),
+				content_type="application/json"
+			)
 
+		else:
+			return HttpResponse('<h4>Invalid form</h4>')
+	# If the request is GET
 	else:
-		return HttpResponse(
-			json.dumps({"nothing to see": "this isn't happening"}),
-			content_type="application/json"
-		)
+		post = tPost.objects.all().filter(id=post_id).first()
+		all_comments = tComment.objects.all().filter(post=post_id).order_by('date')
+		
+		# Get all the users that liked this post
+		# We will need users objects so that we can read the username. i.e user.username
+		# Filtering the tLikes table will not do, as we can only retrieve the ids of the users
+		# The following would be like:
+		# Select * from user_auth where id in (select user from tLike where post = post_id)
+		# The __ helps querying across relationships
+		users_liked = User.objects.all().filter(tlike__post=post_id)
+
+		# If the user is authenticated, we need to find out whether he has already liked this post
+		post_liked = False
+
+		if request.user.is_authenticated():
+			if tLike.objects.all().filter(user_id=request.user, post=post.id):
+				post_liked = True
+
+		template = "blog/post.html"
+
+		# Prepopulate the hidden input with the id of the post
+		# Forms take a dictionary as argument
+		comment_form = CommentForm({'post': post_id})
+
+		context = {
+			'post':         post,
+			'all_comments': all_comments,
+			'users_liked':  users_liked,
+			'post_liked':   post_liked,
+			'comment_form': comment_form,
+		}
+		return render(request, template, context)
 
 # Function that adds a like in tLike table
 def like_post(request):

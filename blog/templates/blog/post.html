@@ -110,7 +110,7 @@
 							</div>
 						</div>
 						<div class="col-xs-4 text-center">
-							<button onclick="document.getElementById('comment-text').focus();" type="button" style="background: none; border: none; outline:none;">
+							<button onclick="document.getElementById('id_text').focus();" type="button" style="background: none; border: none; outline:none;">
 								<span class="glyphicon glyphicon-comment glyphicon-comment-green" aria-hidden="true"></span>
 								<span class="hidden-xs"> Comment</span>
 							</button>								
@@ -139,20 +139,24 @@
 				</div>
 
 				<div class="container-fluid" style="position:relative; padding-top: 30px;">
-					<form action="add_comment/" id="comment-form" method="POST">
+					<form id="comment-form">
 						{% csrf_token %}
 						<div class="row">
-							<input type="hidden" id="post-id" value="{{ post.id }}">
 							<div class="col-xs-12 col-sm-12 col-md-12 form-group">
-								<textarea type="text" class="form-control" id="comment-text" name="Comment" rows="3" placeholder="Add a comment..."></textarea>
+								{% for field in comment_form %}
+									{{ field }}
+								{% endfor %}
 							</div>
 							{% if not user.is_authenticated %}
+								Please login to add a comment!
+							<!--
 							<div class="col-xs-12 col-sm-6 col-md-6 form-group">
 								<input type="text" class="form-control" id="inputName" name="Name" placeholder="Last Name*">
 							</div>
 							<div class="col-xs-12 col-sm-6 col-md-6 form-group">
 								<input type="email" class="form-control" id="inputEmail" name="Email" placeholder="Email*">
 							</div>
+							-->
 							{% endif %}
 						</div>
 						<button class="btn btn-default" type="submit" style="border: 1px solid black; background:none; outline:none;">
