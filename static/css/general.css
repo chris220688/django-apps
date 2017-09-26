@@ -4,7 +4,7 @@
 ::-webkit-scrollbar {display:none;}
 
 /* Give a min, max width for the navbar */
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .smooth {
     min-width: 510px;
     max-width: 640px;
