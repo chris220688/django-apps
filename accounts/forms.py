@@ -1,71 +1,81 @@
-from django import forms
+# Django imports
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django import forms
 from django.forms import (
-	ModelForm,
-	CharField,
-	BooleanField
+    ModelForm, CharField, BooleanField,
 )
 from django.forms.widgets import FileInput, TextInput, PasswordInput
-from django.contrib.auth.models import User
+
+# Local Django imports
 from accounts.models import tUserProfile
 
-##########################
-#   Registration forms   #
-##########################
 
-# Create a registration form
-# These values come both from auth_user and tUserProfile tables
 class RegisterForm(UserCreationForm):
-	# Give some additional special CSS attributes to each field
-	username   = CharField(widget=TextInput(attrs={'placeholder': 'Username*', 'class': "form-control"}),required=True)
-	email      = CharField(widget=TextInput(attrs={'placeholder': 'Email*', 'class': "form-control"}),required=True)
-	password1  = CharField(widget=PasswordInput(attrs={'placeholder': 'Password*', 'class': "form-control"}),required = True)
-	password2  = CharField(widget=PasswordInput(attrs={'placeholder': 'Confirm Password*', 'class': "form-control"}),required = True)
-	first_name = CharField(widget=TextInput(attrs={'placeholder': 'First Name', 'class': "form-control"}),required=False)
-	last_name  = CharField(widget=TextInput(attrs={'placeholder': 'Last Name', 'class': "form-control"}),required=False)
-	subscr     = BooleanField(required=False)
+    """ Creates a registration form.
+        These values come both from auth_user and tUserProfile tables
+    """
 
-	class Meta:
-		model   = User
-		fields  = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'subscr']
+    # Give some additional special CSS attributes to each field
+    username = CharField(widget=TextInput(attrs={'placeholder': 'Username*', 'class': 'form-control'}),
+        required=True)
+    email = CharField(widget=TextInput(attrs={'placeholder': 'Email*', 'class': 'form-control'}),
+        required=True)
+    password1 = CharField(widget=PasswordInput(attrs={'placeholder': 'Password*', 'class': 'form-control'}),
+        required = True)
+    password2 = CharField(widget=PasswordInput(attrs={'placeholder': 'Confirm Password*', 'class': 'form-control'}),
+        required = True)
+    first_name = CharField(widget=TextInput(attrs={'placeholder': 'First Name', 'class': 'form-control'}),
+        required=False)
+    last_name = CharField(widget=TextInput(attrs={'placeholder': 'Last Name', 'class': 'form-control'}),
+        required=False)
+    subscr = BooleanField(required=False)
 
-##########################
-# Account Settings forms #
-##########################
-
-# Create a form for username, first_name, last_name
-# These values live in auth_user table
-class UserForm(ModelForm):
     class Meta:
-        model  = User
+        model = User
+        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'subscr']
+
+class UserForm(ModelForm):
+    """ Creates a form for username, first_name, last_name.
+        These values live in auth_user table.
+    """
+
+    class Meta:
+        model = User
         fields = ['username', 'first_name', 'last_name']
 
-# Create a form for the avatar
-# This value lives in tUserProfile which extends auth_user table
 class AvatarForm(ModelForm):
-	class Meta:
-		model   = tUserProfile
-		fields  = ['avatar']
-		# The widget will help us get rid of the default labels
-		widgets = {
-			'avatar': FileInput()
-		}
+    """ Creates an form for the avatar.
+        This value lives in tUserProfile which extends auth_user table.
+    """
 
-# Create a form for the Email
+    class Meta:
+        model = tUserProfile
+        fields = ['avatar']
+        # The widget will help us get rid of the default labels
+        widgets = {
+            'avatar': FileInput()
+        }
+
 class UserEmailForm(ModelForm):
-	class Meta:
-		model  = User
-		fields = ['email']
+    """ Creates a form for the email """
 
-# Create a form for the subscription
-# This value lives in tUserProfile which extends auth_user table
+    class Meta:
+        model  = User
+        fields = ['email']
+
 class SubscrForm(ModelForm):
-	class Meta:
-		model  = tUserProfile
-		fields = ['subscr']
+    """ Creates a form for the subscription option.
+        This value lives in tUserProfile which extends auth_user table.
+    """
 
-# Create a form for the account closure
+    class Meta:
+        model = tUserProfile
+        fields = ['subscr']
+
 class AccountClosureForm(ModelForm):
-	class Meta:
-		model  = User
-		fields = ['is_active']
+    """ Creates a form for the account closure option. """
+
+    class Meta:
+        model = User
+        fields = ['is_active']
