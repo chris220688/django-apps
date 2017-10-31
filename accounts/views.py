@@ -27,12 +27,23 @@ from accounts.models import tUserProfile
 
 
 def register_view(request):
-    """ Handle the registration of a new user. """
+    """ Handle the registration of a new user.
+
+        Args:
+            request: An HttpRequest to /account/register/
+
+        Returns:
+            An HttpResponse object with the registration form,
+            or redirects to 'my account' if the user is registered
+    """
 
     # If the user is already logged in redirect him to the account page
     if request.user.is_authenticated():
-        return redirect('/account/my-account/')
+        template = '/account/my-account/'
+        return redirect(template)
     else:
+        template = 'accounts/register.html'
+
         # POST request
         if request.method == 'POST':
             register_form = RegisterForm(request.POST)
@@ -63,10 +74,18 @@ def register_view(request):
         else:
             register_form = RegisterForm()
 
-        return render(request, 'accounts/register.html', {'register_form': register_form})
+        return render(request, template, {'register_form': register_form})
 
 def activate_view(request):
-    """ Handle the account activation of a newly registered user. """
+    """ Handle the account activation of a newly registered user.
+
+        Args:
+            request: An HttpRequest to /account/activate/. Originates from
+                     the url that was sent earlier to the user's email
+
+        Returns:
+            An HttpResponse object with the status of the activation
+    """
 
     # Get the signed id string
     signed_id = request.GET.get('id')
@@ -89,9 +108,19 @@ def activate_view(request):
 def my_account_view(request):
     """ Handle account changes. Check which form was passed by the request
         and update the account accordingly.
+
+        Args:
+            request: An HttpRequest to /account/my-account/
+
+        Returns:
+            An HttpResponse object with the account form or redirects to
+            /account/my-account/ if a change has been made
     """
 
     if request.user.is_authenticated():
+
+        template = 'accounts/my_account.html'
+
         # POST request: Validate and save the forms.
         # Then render them with the new values pre-populated.
         if request.method == 'POST':
@@ -102,10 +131,13 @@ def my_account_view(request):
                 """ Handle UNA updates. """
 
                 user_form = UserForm(request.POST, instance=request.user)
-                # We also need to post the avatar which lives in tUserProfile.
-                # Create a new instance of AvatarForm.
-                # Notice the request.FILES.
-                # Django needs to know we are uploading a file.
+
+                """
+                We also need to post the avatar which lives in tUserProfile.
+                Create a new instance of AvatarForm.
+                Notice the request.FILES.
+                Django needs to know we are uploading a file.
+                """
                 user_profile_form = AvatarForm(request.POST, request.FILES, instance=request.user.tuserprofile)
 
                 if user_form.is_valid() and user_profile_form.is_valid():
@@ -181,7 +213,7 @@ def my_account_view(request):
             password_form = PasswordChangeForm(user=request.user)
             account_closure_form = AccountClosureForm(instance=request.user)
 
-        return render(request, 'accounts/my_account.html', {
+        return render(request, template, {
             'user_form': user_form,
             'user_profile_form': user_profile_form,
             'user_email_form': user_email_form,
@@ -194,10 +226,19 @@ def my_account_view(request):
         return redirect('/home/')
 
 def login_view(request):
-    """ Handle a login request """
+    """ Handle a login request.
+
+        Args:
+            request: An HttpRequest to /account/login/
+
+        Returns:
+            Redirects to /home/
+    """
+
+    target = '/home/'
 
     if request.user.is_authenticated():
-        return redirect('/home/')
+        return redirect(target)
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -212,15 +253,24 @@ def login_view(request):
             else:
                 if user.is_active:
                     login(request, user)
-                    return redirect('/home/')
+                    return redirect(target)
         else:
-            return redirect('/home/')
+            return redirect(target)
 
 def logout_view(request):
-    """ Handle a logout request """
+    """ Handle a logout request
 
+        Args:
+            request: An HttpRequest to /account/logout/
+
+        Returns:
+            Redirects to /home/
+    """
+
+    target = '/home/'
     logout(request)
-    return redirect('/home/')
+
+    return redirect(target)
 
 def send_email(receiver, id):
     """ Send a confirmation email to a newly registered user.
@@ -251,11 +301,15 @@ def sign_value(value):
         Timestamp is also used to check expiration.
 
         Args:
-            value: The value to be signed.
+            value: The value to be signed
+
+        Returns:
+            A cryptographically signed value
     """
 
     signer = TimestampSigner()
     value = signer.sign(value)
+
     return value
 
 def unsign_value(value):
@@ -263,7 +317,10 @@ def unsign_value(value):
         Timestamp is also used to check expiration.
 
         Args:
-            value: The value to be unsigned.
+            value: The value to be unsigned
+
+        Returns:
+            An unsigned value
     """
 
     signer = TimestampSigner()

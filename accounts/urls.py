@@ -5,6 +5,7 @@ from django.contrib.auth import views as auth_views
 # Local Django imports
 import accounts.views
 
+
 urlpatterns = [
     # /account/register/
     url(r'^register/$', accounts.views.register_view, name='register_view'),
@@ -12,7 +13,7 @@ urlpatterns = [
     url(r'^login/$', accounts.views.login_view, name='login_view'),
     # /account/logout/
     url(r'^logout/$', accounts.views.logout_view, name='logout_view'),
-    # /account/my-ccount/
+    # /account/my-account/
     url(r'^my-account/$', accounts.views.my_account_view, name='my_account_view'),
     # /account/activate/
     url(r'^activate/', accounts.views.activate_view, name='activate_view'),
