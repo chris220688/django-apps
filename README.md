@@ -9,8 +9,6 @@ The aim is to create a blog that will focus on the homelessness crisis in the UK
 
 There is also a chance for an additional feature to make donations in the local holmeless communities.
 
-Visit [this link](https://chris220688.github.io/blog.html) to see a demo of the website.
-
 #### Technologies
 
 1. Python, Django
